@@ -1,0 +1,76 @@
+.details {
+  background-color: #fff;
+  width: 75vw;
+  height: 70vh;
+  top: 100px;
+  bottom: 0;
+  left: 12%;
+  position: fixed;
+  display: none;
+  border-radius: 2rem;
+}
+
+.details .pokemon {
+  margin: 0;
+  cursor: initial;
+}
+
+.details .pokemon span {
+  padding: 0px 1rem;
+}
+
+.active {
+  display: block;
+}
+
+.details .butao {
+  font-size: 28px;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+.details .number {
+  font-size: 16px;
+}
+
+.details .name {
+  font-size: 25px;
+  padding: 0px;
+}
+
+.details img {
+  height: 180px;
+  align-self: center;
+}
+
+.details .detail {
+  position: relative;
+  padding: 0px 1rem;
+}
+
+.stats-detail {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  color: #252525;
+  font-size: 17px;
+  padding: 2rem 2rem;
+  width: 100%;
+  border-radius: 2rem;
+  position: absolute;
+  gap: 10px;
+}
+
+.stats-detail .name {
+  font-size: 20px;
+  color: #000;
+}
+
+@media screen and (min-width: 992px) {
+  .details {
+    width: 30vw;
+    height: 80vh;
+    left: 35%;
+    top: 80px;
+  }
+}

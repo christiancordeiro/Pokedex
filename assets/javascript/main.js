@@ -1,18 +1,21 @@
 const pokemonList = document.getElementById("pokemonList")
 const loadMoreButton = document.getElementById("loadMore")
+const sectionDetails = document.getElementById("details")
 
 const maxRecords = 151
 const limit = 10
 let offset = 0
 
-function loadPokemonItens(offset, limit) {
+function loadPokemonItems(offset, limit) {
   pokeApi
     .getPokemons(offset, limit)
     .then((pokemons = []) => {
       const newHtml = pokemons
         .map(
           (pokemon) => `
-          <li class="pokemon ${pokemon.type}">
+          <li class="pokemon ${pokemon.type}" data-pokemon-id="${
+            pokemon.number
+          }">
             <span class="number">${pokemon.number}</span>
             <span class="name">${pokemon.name}</span>
 
@@ -31,23 +34,82 @@ function loadPokemonItens(offset, limit) {
          `
         )
         .join("")
+
       pokemonList.innerHTML += newHtml
+
+      addClickEventToPokemonItems()
     })
     .catch((error) => console.error(error))
 }
 
-loadPokemonItens(offset, limit)
+function addClickEventToPokemonItems() {
+  const pokemonItems = document.querySelectorAll(".pokemon")
+
+  pokemonItems.forEach((pokemonItem) => {
+    pokemonItem.addEventListener("click", () => {
+      const details = document.querySelector(".details")
+      const content = document.querySelector(".content")
+
+      if (details) {
+        details.classList.add("active")
+        content.classList.add("active1")
+        const pokemonId = pokemonItem.getAttribute("data-pokemon-id")
+        loadPokemonDetails(pokemonId)
+      }
+    })
+  })
+}
+
+loadPokemonItems(offset, limit)
 
 loadMoreButton.addEventListener("click", () => {
   offset += limit
-  const qntRecordNexPage = offset + limit
+  const qntRecordNextPage = offset + limit
 
-  if (qntRecordNexPage >= maxRecords) {
+  if (qntRecordNextPage >= maxRecords) {
     const newLimit = maxRecords - offset
-    loadPokemonItens(offset, newLimit)
+    loadPokemonItems(offset, newLimit)
 
     loadMoreButton.parentElement.removeChild(loadMoreButton)
   } else {
-    loadPokemonItens(offset, limit)
+    loadPokemonItems(offset, limit)
   }
 })
+
+function loadPokemonDetails(pokemonId) {
+  pokeApi.getPokemon(pokemonId).then((pokemon) => {
+    const pokemonDetail = document.getElementById("pokemon-details")
+    const newHtml = `
+      <li class="pokemon ${pokemon.type}">
+        <i class="fa-regular fa-circle-xmark butao"></i>
+        <span class="number">${pokemon.number}</span>
+        <span class="name">${pokemon.name}</span>
+        <div class="detail">
+          <ol class="types">
+            <li class="type ${pokemon.type}">${pokemon.type}</li>
+          </ol>
+        </div>
+        <img src="${pokemon.photo}" alt="${pokemon.name}" />
+      </li>
+      <div class="stats-detail ">
+          <span class="name">About</span>
+          <span class="height">Height: ${pokemon.height}</span>
+          <span class="weight">Weight: ${pokemon.weight}</span>
+          <span class="weight">Abilities: ${pokemon.abilities0}, ${pokemon.abilities1}</span>
+      </div>
+      `
+
+    pokemonDetail.innerHTML = newHtml
+
+    const botao = document.querySelector(".butao")
+    const details = document.querySelector(".details")
+    const content = document.querySelector(".content")
+
+    botao.addEventListener("click", () => {
+      if (details && content) {
+        details.classList.remove("active")
+        content.classList.remove("active1")
+      }
+    })
+  })
+}
