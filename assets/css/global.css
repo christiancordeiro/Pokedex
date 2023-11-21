@@ -17,6 +17,7 @@ body {
 
 .active1 {
   filter: blur(5px);
+  pointer-events: none;
 }
 
 @media screen and (min-width: 992px) {
