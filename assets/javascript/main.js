@@ -70,7 +70,9 @@ function addClickEventToPokemonItems() {
         }
       }
 
-      document.addEventListener("click", clickAway)
+      setTimeout(() => {
+        document.addEventListener("click", clickAway)
+      }, 0)
     })
   })
 }
