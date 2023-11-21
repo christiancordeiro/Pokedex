@@ -31,7 +31,6 @@ function convertPokeApiDetailToPokemon2(pokeDetail) {
   pokemon.abilities0 = pokeDetail.abilities[0].ability.name
   pokemon.abilities1 = pokeDetail.abilities[1].ability.name
 
-
   return pokemon
 }
 
@@ -54,15 +53,10 @@ pokeApi.getPokemons = (offset = 0, limit = 5) => {
 pokeApi.getPokemon = (pokemonId) => {
   const url = `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
 
-  return (
-    fetch(url)
-      .then((response) => response.json())
-      .then(convertPokeApiDetailToPokemon2)
-      .then((pokemon) => {
-        console.log(pokemon)
-        return pokemon
-      })
-  )
+  return fetch(url)
+    .then((response) => response.json())
+    .then(convertPokeApiDetailToPokemon2)
+    .then((pokemon) => {
+      return pokemon
+    })
 }
-
-pokeApi.getPokemon(3)

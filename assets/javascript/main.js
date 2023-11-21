@@ -44,18 +44,33 @@ function loadPokemonItems(offset, limit) {
 
 function addClickEventToPokemonItems() {
   const pokemonItems = document.querySelectorAll(".pokemon")
+  let isDetailsActive = false // Controle de estado
 
   pokemonItems.forEach((pokemonItem) => {
-    pokemonItem.addEventListener("click", () => {
+    pokemonItem.addEventListener("click", (event) => {
       const details = document.querySelector(".details")
       const content = document.querySelector(".content")
 
       if (details) {
-        details.classList.add("active")
-        content.classList.add("active1")
-        const pokemonId = pokemonItem.getAttribute("data-pokemon-id")
-        loadPokemonDetails(pokemonId)
+        if (!isDetailsActive) {
+          details.classList.add("active")
+          content.classList.add("active1")
+          const pokemonId = pokemonItem.getAttribute("data-pokemon-id")
+          loadPokemonDetails(pokemonId)
+          isDetailsActive = true // Atualiza o controle de estado
+        }
       }
+
+      function clickAway(event) {
+        if (!pokemonItem.contains(event.target)) {
+          details.classList.remove("active")
+          content.classList.remove("active1")
+          isDetailsActive = false // Atualiza o controle de estado
+          document.removeEventListener("click", clickAway)
+        }
+      }
+
+      document.addEventListener("click", clickAway)
     })
   })
 }

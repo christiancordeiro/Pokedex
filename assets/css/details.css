@@ -66,6 +66,7 @@
   color: #000;
 }
 
+
 @media screen and (min-width: 992px) {
   .details {
     width: 30vw;
